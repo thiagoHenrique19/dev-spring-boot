@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FunRestController {
 
     //expose "/" that return "Hello Word"
+    //localhost8080
 
     @GetMapping("/")
     public String sayHello(){
