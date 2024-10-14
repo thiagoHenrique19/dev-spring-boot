@@ -1,10 +1,28 @@
 package com.luv2code.springboot.demo.mycoolapp.rest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FunRestController {
+
+    //inject properties for: coach.name and team.name
+
+    @Value("${coach.name}")
+    private String coachName;
+
+    //http://localhost:8080/teaminfo
+
+    @Value("${team.name}")
+    private String teamName;
+
+    //expose new endpoints for "teaminfo"
+
+    @GetMapping("/teaminfo")
+    public String getTeamName(){
+        return "Coach: " + coachName + ", Team name: " +  teamName;
+    }
 
     //expose "/" that return "Hello Word"
     //localhost8080
