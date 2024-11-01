@@ -4,18 +4,17 @@ import com.luv2code.springboot.cruddemo.dao.EmployeeRepository;
 import com.luv2code.springboot.cruddemo.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmloyeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmloyeeServiceImpl(EmployeeRepository theEmployeeRepository){
+    public EmployeeServiceImpl(EmployeeRepository theEmployeeRepository) {
         employeeRepository = theEmployeeRepository;
     }
 
@@ -30,14 +29,14 @@ public class EmloyeeServiceImpl implements EmployeeService{
 
         Employee theEmployee = null;
 
-        if (result.isPresent()){
+        if (result.isPresent()) {
             theEmployee = result.get();
         }
-        else{
-            //we didn't find the employee
-            throw new RuntimeException("Did nor find employee id -" + theId);
-
+        else {
+            // we didn't find the employee
+            throw new RuntimeException("Did not find employee id - " + theId);
         }
+
         return theEmployee;
     }
 
@@ -48,6 +47,12 @@ public class EmloyeeServiceImpl implements EmployeeService{
 
     @Override
     public void deleteById(int theId) {
-       employeeRepository.deleteById(theId);
+        employeeRepository.deleteById(theId);
     }
 }
+
+
+
+
+
+
