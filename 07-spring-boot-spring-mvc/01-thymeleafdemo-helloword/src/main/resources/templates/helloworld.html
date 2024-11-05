@@ -3,15 +3,14 @@
 
 <head>
     <title>Thymeleaf Demo</title>
-
-    <!--reference CSS file -->
-    <link rel="stylesheet"
-    th:href="@{/css/demo.css}"/>
 </head>
 
 <BODY>
 
-     <p th:text="'Time on the server is' + ${theDate}" class="funny"/>
+Hello Wolrd of Spring!
+<br><br>
+
+Student name: <span th:text="${param.studentName}" />
 
 </BODY>
 
