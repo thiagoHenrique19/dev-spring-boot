@@ -18,5 +18,13 @@ The student is confirmed: <span th:text="${student.firstName} + '' + ${student.l
 
 Favorite Programming Language: <span th:text="${student.favoriteLanguage}" />
 
+<br><br>
+
+Favorite Operating Systems:
+
+<ul>
+     <li th:each="tempSystem : ${student.favoriteSystems}" th:text="${tempSystems}" />
+</ul>
+
 </body>
 </html>
