@@ -2,10 +2,7 @@ package com.luv2code.aopdemo.aspect;
 
 import com.luv2code.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -18,11 +15,32 @@ import java.util.List;
 @Order(2)
 public class MydDemoLoggingAspect {
 
-     //add a new advice for @AfterReturning on the findAccounts method
+    @After("execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))")
+    public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint){
 
+        //print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @After (finally) on  emthod: " + method);
+
+    }
+
+    @AfterThrowing(
+            pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))",
+            throwing = "theExc")
+        public void afterReturningFindAccountsAdvice(
+                JoinPoint theJoinPoint, Throwable theExc){
+
+           //print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @AfterThrowing on method: " + method);
+
+          //log the exception
+        System.out.println("\n=====>>> The exception is: " + theExc);
+
+        }
 
     @AfterReturning(
-            pointcut = "* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..)",
+            pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))",
             returning = "result")
     public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> result){
 
@@ -30,8 +48,30 @@ public class MydDemoLoggingAspect {
        String method = theJoinPoint.getSignature().toShortString();
         System.out.println("\n=====>>> Executing @AfterReturning on method" + method);
 
+        //print out the result of are method call
+        System.out.println("\n=====>>> result is: " + result);
 
-        //print out the results of the method call
+        //lets post-process the data...let's modify it ;-)
+
+        //convert the account names to uppercase
+        convertAccountNamesToUpperCase(result);
+
+        System.out.println("\n=====>>> result is: " + result);
+    }
+
+    private void convertAccountNamesToUpperCase(List<Account> result) {
+
+        //loop through accounts
+
+        for (Account tempAccount : result) {
+
+            //get uppertcase version of name
+          String theUpperName = tempAccount.getName().toUpperCase();
+
+            //update the name on the account
+            tempAccount.setName(theUpperName);
+
+        }
     }
 
     @Before("com.luv2code.aopdemo.aspect.LuvAopExpressions.forDaoPackageNoGetterSetter()")
